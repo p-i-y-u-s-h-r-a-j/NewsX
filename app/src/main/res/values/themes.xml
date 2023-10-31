@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.NewsX" parent="Theme.Material3.DayNight.NoActionBar">
+<!--        <color name="text_color_light">#000000</color>-->
+    </style>
+
+    <style name="Theme.NewsX" parent="Base.Theme.NewsX" />
+</resources>

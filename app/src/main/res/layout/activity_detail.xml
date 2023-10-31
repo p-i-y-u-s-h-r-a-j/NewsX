@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    tools:context=".DetailActivity">
+    <androidx.cardview.widget.CardView
+
+        android:elevation="20dp"
+        app:cardCornerRadius="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="280dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/newImage"
+                android:src="@drawable/news_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:maxLines="2"
+                android:id="@+id/newsDes"
+                android:layout_marginTop="190dp"
+                android:layout_marginStart="20dp"
+                android:textStyle="bold"
+                android:textSize="21sp"
+                android:textColor="@color/white"
+                android:text="Six People were Killed and 18 injured On Sunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/newsAuth"
+                android:text="Michal Ronaldo Messi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageView
+
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/baseline_access_time_24"
+                android:layout_width="15dp"
+                android:layout_height="15dp"/>
+            <TextView
+                android:id="@+id/newsTime"
+                android:layout_marginStart="5dp"
+                android:text="2 hr ago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/newsFakeContent"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="SomeOne was Called By SomeOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/newsRealContent"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/Gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>
