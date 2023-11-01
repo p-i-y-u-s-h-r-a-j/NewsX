@@ -2,20 +2,14 @@ package com.shield.newsx.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.shield.newsx.DetailActivity
 import com.shield.newsx.R
 import com.shield.newsx.databinding.NewsListItemBinding
 import com.shield.newsx.models.ArticlesItem
-import java.lang.Exception
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -23,8 +17,14 @@ import java.util.Locale
 import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
+
 class NewsAdapter(var context: Context, var list: List<ArticlesItem>?):
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+
+    interface onClickListener {
+        fun onItemClick(position: Int, adapterData: List<String?>)
+    }
+    private var itemClickListener: onClickListener? = null
     inner class NewsViewHolder(view: View): RecyclerView.ViewHolder(view){
         var binding = NewsListItemBinding.bind(view)
     }
@@ -38,6 +38,9 @@ class NewsAdapter(var context: Context, var list: List<ArticlesItem>?):
             if(list!!.size>20) return 20
         }
         return list?.size ?: 0
+    }
+    fun setOnItemClickListener(listener: onClickListener) {
+        itemClickListener = listener
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
@@ -55,40 +58,34 @@ class NewsAdapter(var context: Context, var list: List<ArticlesItem>?):
             ).thumbnail(Glide.with(context).load(R.drawable.baseline_download_24))
                 .into(holder.binding.setImg)
 
-
+            val customData = listOf(imageUrl, convertToTimeAgo(agoTime), item.author, item.title, item.content, item.description, item.url)
 
             holder.itemView.setOnClickListener {
-
-
-                try {
-                    var intentImageUrl = imageUrl
-                    var intentTime = convertToTimeAgo(agoTime)
-                    var intentAuthor = item.author
-                    var intentTitle = item.title
-                    var intentContent = item.content
-                    var intentDes = item.description
-                    var intentUrl = item.url
-                    val intent = Intent(context, DetailActivity::class.java)
-                    intent.putExtra("author",intentAuthor)
-                    intent.putExtra("title", intentTitle)
-                    intent.putExtra("imageurl", intentImageUrl)
-                    intent.putExtra("time", intentTime)
-                    intent.putExtra("content", intentContent)
-                    intent.putExtra("des",intentDes)
-                    intent.putExtra("url", intentUrl)
-                    context.startActivity(intent)
-                }
-                catch (ex: Exception){
-                    Toast.makeText(context, "Some Error Occured!!", Toast.LENGTH_SHORT).show()
-                }
+                itemClickListener?.onItemClick(position,customData)
+//                try {
+//                    var intentImageUrl = imageUrl
+//                    var intentTime = convertToTimeAgo(agoTime)
+//                    var intentAuthor = item.author
+//                    var intentTitle = item.title
+//                    var intentContent = item.content
+//                    var intentDes = item.description
+//                    var intentUrl = item.url
+//                    val intent = Intent(context, DetailActivity::class.java)
+//                    intent.putExtra("author",intentAuthor)
+//                    intent.putExtra("title", intentTitle)
+//                    intent.putExtra("imageurl", intentImageUrl)
+//                    intent.putExtra("time", intentTime)
+//                    intent.putExtra("content", intentContent)
+//                    intent.putExtra("des",intentDes)
+//                    intent.putExtra("url", intentUrl)
+//                    context.startActivity(intent)
+//                }
+//                catch (ex: Exception){
+//                    Toast.makeText(context, "Some Error Occured!!", Toast.LENGTH_SHORT).show()
+//                }
 
             }
         }
-
-
-
-
-
 
     }
 
