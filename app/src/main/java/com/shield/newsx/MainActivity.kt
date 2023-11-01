@@ -2,6 +2,7 @@ package com.shield.newsx
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -22,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NewsAdapter.onClickListener {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         fetchTopHeadlines(listCategory)
 
         binding.searchBtn.setOnClickListener {
-
             if(binding.searchEd.text.isEmpty()){
                 Toast.makeText(this, "Please Enter Some Data", Toast.LENGTH_SHORT).show()
             }else{
@@ -64,7 +64,9 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "No Data Found", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    binding.topHeadlines.adapter = NewsAdapter(this@MainActivity, res.body()?.articles)
+                    val customNewsAdapter = NewsAdapter(this@MainActivity,res.body()?.articles )
+                    binding.topHeadlines.adapter = customNewsAdapter
+                    customNewsAdapter.setOnItemClickListener(this@MainActivity)
                 }
 
             }
@@ -90,9 +92,13 @@ class MainActivity : AppCompatActivity() {
                 val sport = resSp.body()?.articles
                 val tech = resTech.body()?.articles
                 val datalist: List<List<ArticlesItem>?> = listOf(tpH,business,enter,health,science,sport,tech)
-                binding.topHeadlines.adapter = NewsAdapter(this@MainActivity, res.body()?.articles)
+
+                val customNewsAdapter = NewsAdapter(this@MainActivity,res.body()?.articles )
+                binding.topHeadlines.adapter = customNewsAdapter
+                customNewsAdapter.setOnItemClickListener(this@MainActivity)
                 binding.categoryRv.adapter = CategoryAdapter(this@MainActivity, listCategory, binding.topHeadlines, datalist)
             }
+
         }
     }
 
@@ -136,5 +142,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+
+    override fun onItemClick(position: Int, adapterData: List<String?>) {
+        var intentImageUrl = adapterData[0]
+        var intentTime = adapterData[1]
+        var intentAuthor = adapterData[2]
+        var intentTitle = adapterData[3]
+        var intentContent = adapterData[4]
+        var intentDes = adapterData[5]
+        var intentUrl = adapterData[6]
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("author",intentAuthor)
+        intent.putExtra("title", intentTitle)
+        intent.putExtra("imageurl", intentImageUrl)
+        intent.putExtra("time", intentTime)
+        intent.putExtra("content", intentContent)
+        intent.putExtra("des",intentDes)
+        intent.putExtra("url", intentUrl)
+        startActivity(intent)
     }
 }
